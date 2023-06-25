@@ -1,13 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { drawStroke, setCanvasSize } from './utils/canvasUtils';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from './store';
+import { RootState } from './store';
 import {
   beginStroke,
-  endStroke,
+  getCurrentStroke,
   updateStroke,
-} from './store/slices/boardSlice';
-import { getCurrentStroke } from './store/slices/boardSlice';
+} from './store/slices/currentStroke';
+import { ColorPanel } from './ColorPanel';
+import { Stroke } from './types';
+import { endStroke } from './store/sharedAction';
 
 const WIDTH = 1024;
 const HEIGHT = 768;
@@ -15,13 +17,10 @@ function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const dispatch = useDispatch();
 
-  const currentStroke = useSelector<AppState>((state) =>
-    getCurrentStroke(state.board)
-  );
-  const isDrawing = useSelector<AppState>(
-    (state) => !!state.board.currentStroke.points.length
-  );
-
+  const currentStroke = useSelector<RootState>((state) =>
+    getCurrentStroke(state)
+  ) as Stroke;
+  const isDrawing = !!currentStroke.points.length;
   const getCanvasWithContext = (canvas = canvasRef.current) => {
     return { canvas, context: canvas?.getContext('2d') };
   };
@@ -49,7 +48,7 @@ function App() {
   };
 
   const endDrawing = () => {
-    if (isDrawing) dispatch(endStroke());
+    if (isDrawing) dispatch(endStroke({ stroke: currentStroke }));
   };
 
   useEffect(() => {
@@ -80,6 +79,8 @@ function App() {
         onMouseOut={endDrawing}
         onMouseMove={draw}
       />
+
+      <ColorPanel />
     </div>
   );
 }

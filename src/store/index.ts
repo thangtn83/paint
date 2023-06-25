@@ -1,13 +1,18 @@
-import { configureStore } from "@reduxjs/toolkit";
-import boardReducer from "./slices/boardSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import { Stroke } from '../types';
+import strokesReducer from './slices/strokesSlice';
+import currentStrokeReducer from './slices/currentStroke';
 
-const rootReducer = {
-  board: boardReducer,
+export type RootState = {
+  currentStroke: Stroke;
+  strokes: Stroke[];
 };
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    strokes: strokesReducer,
+    currentStroke: currentStrokeReducer,
+  },
 });
 
-export type AppState = ReturnType<typeof store.getState>;
 export type AppDispatch = ReturnType<typeof store.dispatch>;

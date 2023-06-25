@@ -3,7 +3,7 @@ import { Point } from "../types";
 export function clearCanvas(canvas: HTMLCanvasElement) {
   const context = canvas.getContext("2d");
   if (!context) return;
-  context.fillStyle = "white";
+  context.fillStyle = "#fff";
   context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
