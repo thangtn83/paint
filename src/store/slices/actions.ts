@@ -20,16 +20,16 @@ type EndStroke = {
 
 type BoardAction = BeginStroke | UpdateStroke | EndStroke;
 
-const beginStroke = (point: Point): BoardAction => ({
+export const beginStroke = (point: Point): BoardAction => ({
   type: StrokeActionType.BEGIN_STROKE,
   payload: point,
 });
 
-const updateStroke = (point: Point): BoardAction => ({
+export const updateStroke = (point: Point): BoardAction => ({
   type: StrokeActionType.UPDATE_STROKE,
   payload: point,
 });
 
-const endStroke = (): BoardAction => ({
+export const endStroke = (): BoardAction => ({
   type: StrokeActionType.END_STROKE,
 });

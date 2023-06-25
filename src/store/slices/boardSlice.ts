@@ -1,5 +1,5 @@
-import { Stroke } from "../../types";
-import { createSlice } from "@reduxjs/toolkit";
+import { Stroke } from '../../types';
+import { createSlice } from '@reduxjs/toolkit';
 
 type BoardState = {
   currentStroke: Stroke;
@@ -9,19 +9,30 @@ type BoardState = {
 const initialState: BoardState = {
   currentStroke: {
     points: [],
-    color: "#CCC",
+    color: '#000',
   },
   strokes: [],
 };
 
 const boardSlice = createSlice({
-  name: "Board",
+  name: 'Board',
   initialState,
   reducers: {
-    startStroke(state, action) {
-      state.strokes = [action.payload];
+    beginStroke(state, action) {
+      state.currentStroke.points = [action.payload];
+    },
+    updateStroke(state, action) {
+      state.currentStroke.points.push(action.payload);
+    },
+
+    endStroke(state) {
+      state.currentStroke.points = [];
+      state.strokes.push(state.currentStroke);
     },
   },
 });
 
+export const getCurrentStroke = (state: BoardState): Stroke =>
+  state.currentStroke;
+export const { beginStroke, updateStroke, endStroke } = boardSlice.actions;
 export default boardSlice.reducer;
