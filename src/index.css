@@ -4,3 +4,23 @@ canvas {
     transform: translate3d(-50%, 0, 0);
     margin: 100px 50%;
 }
+
+.color-panel {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    bottom: 0;
+    left: 0;
+}
+
+.current-color {
+    height:40px;
+    width:40px;
+    border: 1px solid #ccc;
+}
+
+.color-selector {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+}

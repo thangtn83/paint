@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from 'react';
-import { drawStroke, setCanvasSize } from './utils/canvasUtils';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './store';
+import React, { useEffect, useRef } from "react";
+import { drawStroke, setCanvasSize } from "./utils/canvasUtils";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./store";
 import {
   beginStroke,
   getCurrentStroke,
   updateStroke,
-} from './store/slices/currentStroke';
-import { ColorPanel } from './ColorPanel';
-import { Stroke } from './types';
-import { endStroke } from './store/sharedAction';
+} from "./store/slices/currentStroke";
+import { ColorPanel } from "./ColorPanel";
+import { Stroke } from "./types";
+import { endStroke } from "./store/sharedAction";
 
 const WIDTH = 1024;
 const HEIGHT = 768;
@@ -17,12 +17,10 @@ function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const dispatch = useDispatch();
 
-  const currentStroke = useSelector<RootState>((state) =>
-    getCurrentStroke(state)
-  ) as Stroke;
+  const currentStroke = useSelector<RootState>(getCurrentStroke) as Stroke;
   const isDrawing = !!currentStroke.points.length;
   const getCanvasWithContext = (canvas = canvasRef.current) => {
-    return { canvas, context: canvas?.getContext('2d') };
+    return { canvas, context: canvas?.getContext("2d") };
   };
 
   const initCanvas = () => {
@@ -30,10 +28,10 @@ function App() {
     if (!canvas || !context) return;
     setCanvasSize(canvas, WIDTH, HEIGHT);
 
-    context.lineJoin = 'round';
-    context.lineCap = 'round';
+    context.lineJoin = "round";
+    context.lineCap = "round";
     context.lineWidth = 5;
-    context.strokeStyle = 'black';
+    context.strokeStyle = "black";
   };
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -64,23 +62,25 @@ function App() {
   }, [currentStroke]);
 
   return (
-    <div className={'window'}>
-      <div className={'title-bar'}>
+    <div className={"window"}>
+      <div className={"title-bar"}>
         <div className="title-bar-text">Paint</div>
         <div className="title-bar-controls">
-          <button aria-label={'Close'}></button>
+          <button aria-label={"Close"}></button>
         </div>
       </div>
 
-      <canvas
-        ref={canvasRef}
-        onMouseDown={startDrawing}
-        onMouseUp={endDrawing}
-        onMouseOut={endDrawing}
-        onMouseMove={draw}
-      />
+      <div className="window-body">
+        <canvas
+          ref={canvasRef}
+          onMouseDown={startDrawing}
+          onMouseUp={endDrawing}
+          onMouseOut={endDrawing}
+          onMouseMove={draw}
+        />
 
-      <ColorPanel />
+        <ColorPanel />
+      </div>
     </div>
   );
 }

@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '..';
-import { endStroke } from '../sharedAction';
+import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "..";
+import { endStroke } from "../sharedAction";
 
-const initialState: RootState['currentStroke'] = {
+const initialState: RootState["currentStroke"] = {
   points: [],
-  color: '#000',
+  color: "#000",
 };
 
 const currentStroke = createSlice({
-  name: 'currenStroke',
+  name: "currenStroke",
   initialState,
   reducers: {
     beginStroke(state, action) {
@@ -16,6 +16,9 @@ const currentStroke = createSlice({
     },
     updateStroke(state, action) {
       state.points.push(action.payload);
+    },
+    setCurrentColor(state, action) {
+      state.color = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -26,5 +29,7 @@ const currentStroke = createSlice({
 });
 
 export const getCurrentStroke = (state: RootState) => state.currentStroke;
-export const { beginStroke, updateStroke } = currentStroke.actions;
+export const getCurrentColor = (state: RootState) => state.currentStroke.color;
+export const { beginStroke, updateStroke, setCurrentColor } =
+  currentStroke.actions;
 export default currentStroke.reducer;
