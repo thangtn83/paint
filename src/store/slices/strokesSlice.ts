@@ -1,18 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../index";
-import { endStroke } from "../sharedAction";
+import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../index';
+import { endStroke } from '../sharedAction';
 
-const initialState: RootState["strokes"] = [];
+const initialState: RootState['strokes'] = [];
 const strokesSlice = createSlice({
-  name: "strokes",
+  name: 'strokes',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(endStroke, (state, action) => {
-      const { stroke } = action.payload;
-      state.push(stroke);
+      const { stroke, stepIndex } = action.payload;
+      return [...state.slice(0, stepIndex), stroke];
     });
   },
 });
 
+export const getStrokes = (state: RootState) => state.strokes;
 export default strokesSlice.reducer;
